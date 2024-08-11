@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FutureSight</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- favicon goes here -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='images/favicon.ico') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="navbar-brand" href="/">
+        <div class="slanted-text">
+          <img class="image" src="../static/images/CoinhubLogo.jpg" alt="" />
+          futureSight
+        </div>
+      </a>
+      <div class="icons">
+        <a href="https://www.linkedin.com/in/princewillegbujor/" target="_blank"
+          ><i class="fab fa-linkedin fa-2x"></i
+        ></a>
+        <a href="https://github.com/elprinz1" target="_blank"
+          ><i class="fab fa-github fa-2x"></i
+        ></a>
+        <a href="https://elprinz1.github.io/portfolio-website/" target="_blank"
+          ><i class="fas fa-briefcase fa-2x"></i
+        ></a>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Upload CSV or Excel file</h3>
+          <div class="form">
+            <form
+              action="/predict"
+              method="POST"
+              class="form-group"
+              enctype="multipart/form-data"
+            >
+              <div class="custom-file mb-3">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="predict"
+                  name="data"
+                  onchange="updateFileName(this)"
+                />
+                <label class="custom-file-label" for="predict" id="fileLabel"
+                  >Choose file</label
+                >
+              </div>
+              <button class="load-more" type="submit">Predict</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {% if msg %}
+      <hr />
+      <div
+        class="alert {% if 'success' in msg %}alert-success{% else %}alert-danger{% endif %}"
+        role="alert"
+      >
+        {{ msg }}
+      </div>
+      {% endif %}
+      <div class="row">
+        {% if plot_url %}
+        <div class="col-md-12">
+          <h3>Prediction Result</h3>
+          <img src="{{ plot_url }}" alt="Prediction Plot" />
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="content"></div>
+    <footer class="footer">
+      <p>&copy; 2024 futureSight - An elprinz production</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/load.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+      // Function to update the label text with selected file name
+      function updateFileName(input) {
+        var fileName = input.files[0].name;
+        document.getElementById("fileLabel").innerHTML = fileName;
+      }
+    </script>
+  </body>
+</html>
